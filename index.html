@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vocabulary Manager</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+
+    <h1>📚 Vocabulary Manager</h1>
+
+    <div class="card">
+        <h2>Add New Word</h2>
+
+        <input type="text" id="word" placeholder="Word">
+
+        <textarea id="meaning" placeholder="Meaning"></textarea>
+
+        <button onclick="addWord()">Add Word</button>
+    </div>
+
+    <div class="card">
+        <input
+            type="text"
+            id="search"
+            placeholder="🔍 Search word..."
+            onkeyup="searchWords()"
+        >
+    </div>
+
+    <div class="card">
+        <button onclick="exportJSON()">Export JSON</button>
+
+        <input
+            type="file"
+            id="importFile"
+            accept=".json"
+            onchange="importJSON(event)"
+        >
+    </div>
+
+    <div id="wordList"></div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
