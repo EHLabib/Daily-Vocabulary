@@ -1,7 +1,11 @@
+// =========================
+// Vocabulary Manager
+// =========================
+
 // Load saved words
 let words = JSON.parse(localStorage.getItem("words")) || [];
 
-// Save to LocalStorage
+// Save data
 function saveData() {
     localStorage.setItem("words", JSON.stringify(words));
 }
@@ -11,120 +15,19 @@ function updateCount() {
     document.getElementById("count").textContent = words.length;
 }
 
-// Add single word
-function addWord() {
-
-    const word = document
-        .getElementById("word")
-        .value
-        .trim();
-
-    const meaning = document
-        .getElementById("meaning")
-        .value
-        .trim();
-
-    if (!word || !meaning) {
-        alert("Please enter both word and meaning.");
-        return;
-    }
-
-    words.unshift({
-        id: Date.now(),
-        word: word,
-        meaning: meaning
-    });
-
-    saveData();
-    renderWords();
-
-    document.getElementById("word").value = "";
-    document.getElementById("meaning").value = "";
-}
-
-// Bulk import
-function bulkImport() {
-
-    const text = document
-        .getElementById("bulkInput")
-        .value
-        .trim();
-
-    if (!text) {
-        alert("Paste your word list first.");
-        return;
-    }
-
-    const lines = text.split("\n");
-
-    let imported = 0;
-
-    lines.forEach(line => {
-
-        line = line.trim();
-
-        if (!line) return;
-
-        // Remove numbering like:
-        // 1 Aberration Meaning
-        // 1<TAB>Aberration<TAB>Meaning
-
-        line = line.replace(/^\d+\s+/, "");
-
-        let word = "";
-        let meaning = "";
-
-        // TAB format
-        if (line.includes("\t")) {
-
-            const parts = line.split(/\t+/);
-
-            word = parts[0]?.trim();
-            meaning = parts.slice(1).join(" ").trim();
-
-        } else {
-
-            // Space format
-            const parts = line.split(/\s+/);
-
-            word = parts.shift();
-
-            meaning = parts.join(" ");
-
-        }
-
-        if (word && meaning) {
-
-            words.push({
-                id: Date.now() + Math.random(),
-                word: word,
-                meaning: meaning
-            });
-
-            imported++;
-        }
-
-    });
-
-    saveData();
-    renderWords();
-
-    alert(imported + " words imported successfully!");
-
-    document.getElementById("bulkInput").value = "";
-}
-
-// Render all words
+// Render words
 function renderWords(list = words) {
 
-    const container =
-        document.getElementById("wordList");
+    const container = document.getElementById("wordList");
 
     if (list.length === 0) {
-
-        container.innerHTML =
-            "<p>No words found.</p>";
-
+        container.innerHTML = `
+            <div class="word-card">
+                <div class="meaning">
+                    No words found.
+                </div>
+            </div>
+        `;
         updateCount();
         return;
     }
@@ -137,11 +40,11 @@ function renderWords(list = words) {
             <div class="word-card">
 
                 <div class="word">
-                    ${item.word}
+                    ${escapeHTML(item.word)}
                 </div>
 
                 <div class="meaning">
-                    ${item.meaning}
+                    ${escapeHTML(item.meaning)}
                 </div>
 
                 <div class="actions">
@@ -167,6 +70,93 @@ function renderWords(list = words) {
     updateCount();
 }
 
+// Add single word
+function addWord() {
+
+    const word = document
+        .getElementById("word")
+        .value
+        .trim();
+
+    const meaning = document
+        .getElementById("meaning")
+        .value
+        .trim();
+
+    if (!word || !meaning) {
+        alert("Please enter both word and meaning.");
+        return;
+    }
+
+    words.unshift({
+        id: Date.now(),
+        word,
+        meaning
+    });
+
+    saveData();
+    renderWords();
+
+    document.getElementById("word").value = "";
+    document.getElementById("meaning").value = "";
+}
+
+// Bulk Import
+// Format:
+// 1|Aberration|বিচ্যুতি, অস্বাভাবিকতা
+// 2|Abstruse|দুর্বোধ্য
+
+function bulkImport() {
+
+    const text = document
+        .getElementById("bulkInput")
+        .value
+        .trim();
+
+    if (!text) {
+        alert("Paste vocabulary data first.");
+        return;
+    }
+
+    const lines = text.split("\n");
+
+    let imported = 0;
+
+    lines.forEach(line => {
+
+        line = line.trim();
+
+        if (!line) return;
+
+        const parts = line.split("|");
+
+        if (parts.length >= 3) {
+
+            const word = parts[1].trim();
+
+            const meaning =
+                parts.slice(2)
+                .join("|")
+                .trim();
+
+            words.push({
+                id: Date.now() + Math.random(),
+                word,
+                meaning
+            });
+
+            imported++;
+        }
+    });
+
+    saveData();
+    renderWords();
+
+    alert(imported + " words imported successfully!");
+
+    document.getElementById("bulkInput").value = "";
+}
+
 // Edit word
 function editWord(id) {
 
@@ -176,12 +166,18 @@ function editWord(id) {
     if (!item) return;
 
     const newWord =
-        prompt("Edit Word", item.word);
+        prompt(
+            "Edit Word",
+            item.word
+        );
 
     if (newWord === null) return;
 
     const newMeaning =
-        prompt("Edit Meaning", item.meaning);
+        prompt(
+            "Edit Meaning",
+            item.meaning
+        );
 
     if (newMeaning === null) return;
 
@@ -195,10 +191,8 @@ function editWord(id) {
 // Delete word
 function deleteWord(id) {
 
-    const confirmDelete =
-        confirm("Delete this word?");
-
-    if (!confirmDelete) return;
+    if (!confirm("Delete this word?"))
+        return;
 
     words =
         words.filter(
@@ -209,27 +203,45 @@ function deleteWord(id) {
     renderWords();
 }
 
-// Search
+// Delete all words
+function clearAllWords() {
+
+    if (
+        !confirm(
+            "Delete ALL words permanently?"
+        )
+    ) {
+        return;
+    }
+
+    words = [];
+
+    saveData();
+    renderWords();
+}
+
+// Search words
 function searchWords() {
 
     const keyword =
         document
         .getElementById("search")
         .value
-        .toLowerCase();
+        .toLowerCase()
+        .trim();
 
     const filtered =
         words.filter(item =>
 
             item.word
-            .toLowerCase()
-            .includes(keyword)
+                .toLowerCase()
+                .includes(keyword)
 
             ||
 
             item.meaning
-            .toLowerCase()
-            .includes(keyword)
+                .toLowerCase()
+                .includes(keyword)
         );
 
     renderWords(filtered);
@@ -283,7 +295,7 @@ function importJSON(event) {
     const reader =
         new FileReader();
 
-    reader.onload = function (e) {
+    reader.onload = function(e) {
 
         try {
 
@@ -292,7 +304,9 @@ function importJSON(event) {
                     e.target.result
                 );
 
-            if (!Array.isArray(imported)) {
+            if (
+                !Array.isArray(imported)
+            ) {
                 throw new Error();
             }
 
@@ -316,20 +330,15 @@ function importJSON(event) {
     reader.readAsText(file);
 }
 
-// Clear all words
-function clearAllWords() {
+// Prevent HTML injection
+function escapeHTML(text) {
 
-    const confirmed =
-        confirm(
-            "Delete ALL words?"
-        );
+    const div =
+        document.createElement("div");
 
-    if (!confirmed) return;
+    div.textContent = text;
 
-    words = [];
-
-    saveData();
-    renderWords();
+    return div.innerHTML;
 }
 
 // First render
