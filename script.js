@@ -1,345 +1,359 @@
-// =========================
-// Vocabulary Manager
-// =========================
+let words =
+JSON.parse(
+localStorage.getItem("words")
+) || [];
 
-// Load saved words
-let words = JSON.parse(localStorage.getItem("words")) || [];
-
-// Save data
-function saveData() {
-    localStorage.setItem("words", JSON.stringify(words));
+function saveData(){
+localStorage.setItem(
+"words",
+JSON.stringify(words)
+);
 }
 
-// Update counter
-function updateCount() {
-    document.getElementById("count").textContent = words.length;
+function updateCount(){
+document.getElementById("count")
+.textContent = words.length;
 }
 
-// Render words
-function renderWords(list = words) {
+function addWord(){
 
-    const container = document.getElementById("wordList");
+```
+const word =
+document.getElementById("word")
+.value.trim();
 
-    if (list.length === 0) {
-        container.innerHTML = `
-            <div class="word-card">
-                <div class="meaning">
-                    No words found.
-                </div>
-            </div>
-        `;
-        updateCount();
-        return;
+const meaning =
+document.getElementById("meaning")
+.value.trim();
+
+if(!word || !meaning){
+    alert("Please enter word and meaning.");
+    return;
+}
+
+words.unshift({
+    id:Date.now(),
+    word,
+    meaning
+});
+
+saveData();
+renderWords();
+
+document.getElementById("word").value="";
+document.getElementById("meaning").value="";
+```
+
+}
+
+function bulkImport(){
+
+```
+const text =
+document.getElementById("bulkInput")
+.value.trim();
+
+if(!text){
+    alert("Paste vocabulary first.");
+    return;
+}
+
+const lines =
+text.split("\n");
+
+let imported = 0;
+
+lines.forEach(line=>{
+
+    const parts =
+    line.split("|");
+
+    if(parts.length >= 3){
+
+        words.push({
+
+            id:
+            Date.now() +
+            Math.random(),
+
+            word:
+            parts[1].trim(),
+
+            meaning:
+            parts.slice(2)
+            .join("|")
+            .trim()
+
+        });
+
+        imported++;
     }
 
-    container.innerHTML = "";
+});
 
-    list.forEach(item => {
+saveData();
+renderWords();
 
-        container.innerHTML += `
-            <div class="word-card">
+alert(
+    imported +
+    " words imported."
+);
 
-                <div class="word">
-                    ${escapeHTML(item.word)}
-                </div>
+document.getElementById(
+    "bulkInput"
+).value="";
+```
 
-                <div class="meaning">
-                    ${escapeHTML(item.meaning)}
-                </div>
+}
 
-                <div class="actions">
+function renderWords(list = words){
 
-                    <button
-                        class="edit-btn"
-                        onclick="editWord(${item.id})">
-                        Edit
-                    </button>
+```
+const container =
+document.getElementById(
+    "wordList"
+);
 
-                    <button
-                        class="delete-btn"
-                        onclick="deleteWord(${item.id})">
-                        Delete
-                    </button>
+if(list.length===0){
 
-                </div>
-
-            </div>
-        `;
-    });
+    container.innerHTML =
+    "<p>No words found.</p>";
 
     updateCount();
+    return;
 }
 
-// Add single word
-function addWord() {
+let html = `
+<table class="vocab-table">
+    <thead>
+        <tr>
+            <th>No</th>
+            <th>Word</th>
+            <th>Bangla Meaning</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+`;
 
-    const word = document
-        .getElementById("word")
-        .value
-        .trim();
+list.forEach((item,index)=>{
 
-    const meaning = document
-        .getElementById("meaning")
-        .value
-        .trim();
+    html += `
+    <tr>
+        <td>${index+1}</td>
+        <td>${item.word}</td>
+        <td>${item.meaning}</td>
 
-    if (!word || !meaning) {
-        alert("Please enter both word and meaning.");
-        return;
+        <td>
+
+            <button
+            class="edit-btn"
+            onclick="editWord(${item.id})">
+            Edit
+            </button>
+
+            <button
+            class="delete-btn"
+            onclick="deleteWord(${item.id})">
+            Delete
+            </button>
+
+        </td>
+    </tr>
+    `;
+});
+
+html += `
+    </tbody>
+</table>
+`;
+
+container.innerHTML = html;
+
+updateCount();
+```
+
+}
+
+function editWord(id){
+
+```
+const item =
+words.find(
+w=>w.id===id
+);
+
+const newWord =
+prompt(
+"Edit Word",
+item.word
+);
+
+if(newWord===null) return;
+
+const newMeaning =
+prompt(
+"Edit Meaning",
+item.meaning
+);
+
+if(newMeaning===null) return;
+
+item.word =
+newWord.trim();
+
+item.meaning =
+newMeaning.trim();
+
+saveData();
+renderWords();
+```
+
+}
+
+function deleteWord(id){
+
+```
+if(
+!confirm(
+"Delete this word?"
+))
+return;
+
+words =
+words.filter(
+w=>w.id!==id
+);
+
+saveData();
+renderWords();
+```
+
+}
+
+function clearAllWords(){
+
+```
+if(
+!confirm(
+"Delete ALL words?"
+))
+return;
+
+words = [];
+
+saveData();
+renderWords();
+```
+
+}
+
+function searchWords(){
+
+```
+const keyword =
+document
+.getElementById("search")
+.value
+.toLowerCase();
+
+const filtered =
+words.filter(item=>
+
+item.word
+.toLowerCase()
+.includes(keyword)
+
+||
+
+item.meaning
+.toLowerCase()
+.includes(keyword)
+
+);
+
+renderWords(filtered);
+```
+
+}
+
+function exportJSON(){
+
+```
+const data =
+JSON.stringify(
+words,
+null,
+2
+);
+
+const blob =
+new Blob(
+[data],
+{
+type:
+"application/json"
+});
+
+const url =
+URL.createObjectURL(
+blob
+);
+
+const a =
+document.createElement("a");
+
+a.href = url;
+a.download =
+"vocabulary.json";
+
+a.click();
+
+URL.revokeObjectURL(url);
+```
+
+}
+
+function importJSON(event){
+
+```
+const file =
+event.target.files[0];
+
+if(!file) return;
+
+const reader =
+new FileReader();
+
+reader.onload =
+function(e){
+
+    try{
+
+        words =
+        JSON.parse(
+        e.target.result
+        );
+
+        saveData();
+        renderWords();
+
+        alert(
+        "Import successful."
+        );
+
+    }catch{
+
+        alert(
+        "Invalid JSON file."
+        );
+
     }
+};
 
-    words.unshift({
-        id: Date.now(),
-        word,
-        meaning
-    });
+reader.readAsText(file);
+```
 
-    saveData();
-    renderWords();
-
-    document.getElementById("word").value = "";
-    document.getElementById("meaning").value = "";
 }
 
-// Bulk Import
-// Format:
-// 1|Aberration|বিচ্যুতি, অস্বাভাবিকতা
-// 2|Abstruse|দুর্বোধ্য
-
-function bulkImport() {
-
-    const text = document
-        .getElementById("bulkInput")
-        .value
-        .trim();
-
-    if (!text) {
-        alert("Paste vocabulary data first.");
-        return;
-    }
-
-    const lines = text.split("\n");
-
-    let imported = 0;
-
-    lines.forEach(line => {
-
-        line = line.trim();
-
-        if (!line) return;
-
-        const parts = line.split("|");
-
-        if (parts.length >= 3) {
-
-            const word = parts[1].trim();
-
-            const meaning =
-                parts.slice(2)
-                .join("|")
-                .trim();
-
-            words.push({
-                id: Date.now() + Math.random(),
-                word,
-                meaning
-            });
-
-            imported++;
-        }
-    });
-
-    saveData();
-    renderWords();
-
-    alert(imported + " words imported successfully!");
-
-    document.getElementById("bulkInput").value = "";
-}
-
-// Edit word
-function editWord(id) {
-
-    const item =
-        words.find(w => w.id === id);
-
-    if (!item) return;
-
-    const newWord =
-        prompt(
-            "Edit Word",
-            item.word
-        );
-
-    if (newWord === null) return;
-
-    const newMeaning =
-        prompt(
-            "Edit Meaning",
-            item.meaning
-        );
-
-    if (newMeaning === null) return;
-
-    item.word = newWord.trim();
-    item.meaning = newMeaning.trim();
-
-    saveData();
-    renderWords();
-}
-
-// Delete word
-function deleteWord(id) {
-
-    if (!confirm("Delete this word?"))
-        return;
-
-    words =
-        words.filter(
-            item => item.id !== id
-        );
-
-    saveData();
-    renderWords();
-}
-
-// Delete all words
-function clearAllWords() {
-
-    if (
-        !confirm(
-            "Delete ALL words permanently?"
-        )
-    ) {
-        return;
-    }
-
-    words = [];
-
-    saveData();
-    renderWords();
-}
-
-// Search words
-function searchWords() {
-
-    const keyword =
-        document
-        .getElementById("search")
-        .value
-        .toLowerCase()
-        .trim();
-
-    const filtered =
-        words.filter(item =>
-
-            item.word
-                .toLowerCase()
-                .includes(keyword)
-
-            ||
-
-            item.meaning
-                .toLowerCase()
-                .includes(keyword)
-        );
-
-    renderWords(filtered);
-}
-
-// Export JSON
-function exportJSON() {
-
-    const data =
-        JSON.stringify(
-            words,
-            null,
-            2
-        );
-
-    const blob =
-        new Blob(
-            [data],
-            {
-                type:
-                "application/json"
-            }
-        );
-
-    const url =
-        URL.createObjectURL(blob);
-
-    const a =
-        document.createElement("a");
-
-    a.href = url;
-    a.download = "vocabulary.json";
-
-    document.body.appendChild(a);
-
-    a.click();
-
-    document.body.removeChild(a);
-
-    URL.revokeObjectURL(url);
-}
-
-// Import JSON
-function importJSON(event) {
-
-    const file =
-        event.target.files[0];
-
-    if (!file) return;
-
-    const reader =
-        new FileReader();
-
-    reader.onload = function(e) {
-
-        try {
-
-            const imported =
-                JSON.parse(
-                    e.target.result
-                );
-
-            if (
-                !Array.isArray(imported)
-            ) {
-                throw new Error();
-            }
-
-            words = imported;
-
-            saveData();
-            renderWords();
-
-            alert(
-                "JSON imported successfully!"
-            );
-
-        } catch {
-
-            alert(
-                "Invalid JSON file."
-            );
-        }
-    };
-
-    reader.readAsText(file);
-}
-
-// Prevent HTML injection
-function escapeHTML(text) {
-
-    const div =
-        document.createElement("div");
-
-    div.textContent = text;
-
-    return div.innerHTML;
-}
-
-// First render
 renderWords();
