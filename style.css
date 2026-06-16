@@ -2,17 +2,17 @@
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:Arial,sans-serif;
+    font-family:Segoe UI,sans-serif;
 }
 
 body{
     background:#121212;
-    color:white;
+    color:#fff;
     padding:20px;
 }
 
 .container{
-    max-width:900px;
+    max-width:1000px;
     margin:auto;
 }
 
@@ -23,24 +23,27 @@ h1{
 
 .card{
     background:#1e1e1e;
-    padding:15px;
+    padding:20px;
+    border-radius:12px;
     margin-bottom:20px;
-    border-radius:10px;
 }
 
 input,
 textarea{
     width:100%;
     padding:12px;
-    margin:10px 0;
+    margin-top:10px;
+    margin-bottom:10px;
     border:none;
     border-radius:8px;
     background:#2b2b2b;
     color:white;
+    font-size:15px;
 }
 
 textarea{
-    min-height:100px;
+    min-height:150px;
+    resize:vertical;
 }
 
 button{
@@ -48,32 +51,17 @@ button{
     border:none;
     border-radius:8px;
     cursor:pointer;
-    margin-right:5px;
+    margin:5px;
+    font-weight:bold;
 }
 
 button:hover{
     opacity:.9;
 }
 
-.word-card{
-    background:#1e1e1e;
-    padding:15px;
-    border-radius:10px;
-    margin-bottom:15px;
-}
-
-.word{
-    font-size:22px;
-    font-weight:bold;
-}
-
-.meaning{
-    margin-top:8px;
-    color:#d4d4d4;
-}
-
-.actions{
-    margin-top:10px;
+.add-btn{
+    background:#28a745;
+    color:white;
 }
 
 .edit-btn{
@@ -85,10 +73,45 @@ button:hover{
     color:white;
 }
 
+.export-btn{
+    background:#007bff;
+    color:white;
+}
+
+.counter{
+    font-size:18px;
+    margin-bottom:15px;
+}
+
+.word-card{
+    background:#1e1e1e;
+    padding:15px;
+    border-radius:10px;
+    margin-bottom:10px;
+}
+
+.word{
+    font-size:22px;
+    font-weight:bold;
+}
+
+.meaning{
+    margin-top:8px;
+    color:#cccccc;
+}
+
+.actions{
+    margin-top:10px;
+}
+
 @media(max-width:600px){
 
     .word{
         font-size:18px;
+    }
+
+    button{
+        width:100%;
     }
 
 }
