@@ -12,26 +12,24 @@
 
     <h1>📚 Vocabulary Manager</h1>
 
-    <!-- Add Single Word -->
+    <!-- Add Word -->
     <div class="card">
-
         <h2>Add New Word</h2>
 
         <input
             type="text"
             id="word"
-            placeholder="Word">
+            placeholder="Enter Word">
 
         <textarea
             id="meaning"
-            placeholder="Meaning"></textarea>
+            placeholder="Enter Meaning"></textarea>
 
         <button
             class="add-btn"
             onclick="addWord()">
             Add Word
         </button>
-
     </div>
 
     <!-- Bulk Import -->
@@ -41,11 +39,11 @@
 
         <textarea
             id="bulkInput"
-            placeholder="Paste rows here...
+            placeholder="Paste words here...
 
-1	Aberration	বিচ্যুতি, অস্বাভাবিকতা
-2	Abstruse	দুর্বোধ্য
-3	Acquiesce	অনিচ্ছাসত্ত্বেও সম্মতি দেওয়া"></textarea>
+1 Aberration বিচ্যুতি, অস্বাভাবিকতা
+2 Abstruse দুর্বোধ্য
+3 Acquiesce অনিচ্ছাসত্ত্বেও সম্মতি দেওয়া"></textarea>
 
         <button
             class="add-btn"
@@ -66,7 +64,7 @@
 
     </div>
 
-    <!-- Import Export -->
+    <!-- Backup -->
     <div class="card">
 
         <button
@@ -82,11 +80,24 @@
 
     </div>
 
+    <!-- Stats -->
     <div class="counter">
         Total Words:
         <span id="count">0</span>
     </div>
 
+    <!-- Delete All -->
+    <div class="card">
+
+        <button
+            class="delete-btn"
+            onclick="clearAllWords()">
+            Delete All Words
+        </button>
+
+    </div>
+
+    <!-- Vocabulary List -->
     <div id="wordList"></div>
 
 </div>
