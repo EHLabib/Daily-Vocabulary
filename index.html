@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -10,95 +11,90 @@
 
 <div class="container">
 
-    <h1>📚 Vocabulary Manager</h1>
+```
+<h1>📚 Vocabulary Manager</h1>
 
-    <!-- Add Word -->
-    <div class="card">
-        <h2>Add New Word</h2>
+<div class="card">
 
-        <input
-            type="text"
-            id="word"
-            placeholder="Enter Word">
+    <h2>Add New Word</h2>
 
-        <textarea
-            id="meaning"
-            placeholder="Enter Meaning"></textarea>
+    <input
+        type="text"
+        id="word"
+        placeholder="Word">
 
-        <button
-            class="add-btn"
-            onclick="addWord()">
-            Add Word
-        </button>
-    </div>
+    <textarea
+        id="meaning"
+        placeholder="Bangla Meaning"></textarea>
 
-    <!-- Bulk Import -->
-    <div class="card">
+    <button
+        class="add-btn"
+        onclick="addWord()">
+        Add Word
+    </button>
 
-        <h2>Bulk Import</h2>
+</div>
 
-        <textarea
-            id="bulkInput"
-            placeholder="Paste words here...
+<div class="card">
 
-1 Aberration বিচ্যুতি, অস্বাভাবিকতা
-2 Abstruse দুর্বোধ্য
-3 Acquiesce অনিচ্ছাসত্ত্বেও সম্মতি দেওয়া"></textarea>
+    <h2>Bulk Import</h2>
 
-        <button
-            class="add-btn"
-            onclick="bulkImport()">
-            Import All Words
-        </button>
+    <textarea
+        id="bulkInput"
+        placeholder="Example:
+```
 
-    </div>
+1|Aberration|বিচ্যুতি, অস্বাভাবিকতা
+2|Abstruse|দুর্বোধ্য
+3|Acquiesce|অনিচ্ছাসত্ত্বেও সম্মতি দেওয়া"></textarea>
 
-    <!-- Search -->
-    <div class="card">
+```
+    <button
+        class="add-btn"
+        onclick="bulkImport()">
+        Import All Words
+    </button>
 
-        <input
-            type="text"
-            id="search"
-            placeholder="🔍 Search..."
-            onkeyup="searchWords()">
+</div>
 
-    </div>
+<div class="card">
 
-    <!-- Backup -->
-    <div class="card">
+    <input
+        type="text"
+        id="search"
+        placeholder="🔍 Search Word or Meaning"
+        onkeyup="searchWords()">
 
-        <button
-            class="export-btn"
-            onclick="exportJSON()">
-            Export JSON
-        </button>
+</div>
 
-        <input
-            type="file"
-            accept=".json"
-            onchange="importJSON(event)">
+<div class="card">
 
-    </div>
+    <button
+        class="export-btn"
+        onclick="exportJSON()">
+        Export JSON
+    </button>
 
-    <!-- Stats -->
-    <div class="counter">
-        Total Words:
-        <span id="count">0</span>
-    </div>
+    <input
+        type="file"
+        accept=".json"
+        onchange="importJSON(event)">
 
-    <!-- Delete All -->
-    <div class="card">
+    <button
+        class="delete-btn"
+        onclick="clearAllWords()">
+        Delete All Words
+    </button>
 
-        <button
-            class="delete-btn"
-            onclick="clearAllWords()">
-            Delete All Words
-        </button>
+</div>
 
-    </div>
+<div class="counter">
+    Total Words:
+    <span id="count">0</span>
+</div>
 
-    <!-- Vocabulary List -->
-    <div id="wordList"></div>
+<div id="wordList"></div>
+```
 
 </div>
 
