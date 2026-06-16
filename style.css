@@ -1,116 +1,109 @@
 *{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Segoe UI,sans-serif;
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Segoe UI,sans-serif;
 }
 
 body{
-    background:#121212;
-    color:white;
-    padding:20px;
+background:#121212;
+color:white;
+padding:20px;
 }
 
 .container{
-    max-width:1000px;
-    margin:auto;
+max-width:1200px;
+margin:auto;
 }
 
 h1{
-    text-align:center;
-    margin-bottom:20px;
+text-align:center;
+margin-bottom:20px;
 }
 
 .card{
-    background:#1e1e1e;
-    padding:20px;
-    border-radius:12px;
-    margin-bottom:20px;
+background:#1e1e1e;
+padding:20px;
+border-radius:10px;
+margin-bottom:20px;
 }
 
 input,
 textarea{
-    width:100%;
-    padding:12px;
-    margin-top:10px;
-    margin-bottom:10px;
-    border:none;
-    border-radius:8px;
-    background:#2b2b2b;
-    color:white;
+width:100%;
+padding:12px;
+margin-top:10px;
+margin-bottom:10px;
+border:none;
+border-radius:8px;
+background:#2b2b2b;
+color:white;
 }
 
 textarea{
-    min-height:180px;
-    resize:vertical;
+min-height:180px;
 }
 
 button{
-    padding:10px 18px;
-    border:none;
-    border-radius:8px;
-    cursor:pointer;
-    margin:5px;
-    font-weight:bold;
-}
-
-button:hover{
-    opacity:0.9;
+padding:10px 16px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+margin:5px;
 }
 
 .add-btn{
-    background:#28a745;
-    color:white;
+background:#28a745;
+color:white;
 }
 
 .edit-btn{
-    background:#ffc107;
+background:#ffc107;
 }
 
 .delete-btn{
-    background:#dc3545;
-    color:white;
+background:#dc3545;
+color:white;
 }
 
 .export-btn{
-    background:#007bff;
-    color:white;
+background:#007bff;
+color:white;
 }
 
 .counter{
-    font-size:18px;
-    margin-bottom:15px;
+font-size:18px;
+margin-bottom:15px;
 }
 
-.word-card{
-    background:#1e1e1e;
-    padding:15px;
-    border-radius:10px;
-    margin-bottom:10px;
+.vocab-table{
+width:100%;
+border-collapse:collapse;
+background:#1e1e1e;
 }
 
-.word{
-    font-size:22px;
-    font-weight:bold;
+.vocab-table th,
+.vocab-table td{
+border:1px solid #333;
+padding:12px;
+text-align:left;
 }
 
-.meaning{
-    margin-top:8px;
-    color:#d4d4d4;
+.vocab-table th{
+background:#2b2b2b;
+position:sticky;
+top:0;
 }
 
-.actions{
-    margin-top:10px;
+.vocab-table tr:hover
+
+@media(max-width:768px){
+
+```
+.vocab-table{
+    display:block;
+    overflow-x:auto;
 }
-
-@media(max-width:600px){
-
-    .word{
-        font-size:18px;
-    }
-
-    button{
-        width:100%;
-    }
+```
 
 }
