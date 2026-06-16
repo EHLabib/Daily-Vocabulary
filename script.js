@@ -1,46 +1,38 @@
-let words =
-JSON.parse(
-    localStorage.getItem("words")
-) || [];
+// Load saved words
+let words = JSON.parse(localStorage.getItem("words")) || [];
 
-function saveData(){
-
-    localStorage.setItem(
-        "words",
-        JSON.stringify(words)
-    );
-
+// Save to LocalStorage
+function saveData() {
+    localStorage.setItem("words", JSON.stringify(words));
 }
 
-function updateCount(){
-
-    document.getElementById("count")
-    .innerText = words.length;
-
+// Update counter
+function updateCount() {
+    document.getElementById("count").textContent = words.length;
 }
 
-function addWord(){
+// Add single word
+function addWord() {
 
-    const word =
-    document.getElementById("word")
-    .value.trim();
+    const word = document
+        .getElementById("word")
+        .value
+        .trim();
 
-    const meaning =
-    document.getElementById("meaning")
-    .value.trim();
+    const meaning = document
+        .getElementById("meaning")
+        .value
+        .trim();
 
-    if(!word || !meaning){
-
-        alert("Please enter word and meaning.");
+    if (!word || !meaning) {
+        alert("Please enter both word and meaning.");
         return;
     }
 
     words.unshift({
-
         id: Date.now(),
-        word,
-        meaning
-
+        word: word,
+        meaning: meaning
     });
 
     saveData();
@@ -48,54 +40,68 @@ function addWord(){
 
     document.getElementById("word").value = "";
     document.getElementById("meaning").value = "";
-
 }
 
-function bulkImport(){
+// Bulk import
+function bulkImport() {
 
-    const text =
-    document.getElementById("bulkInput")
-    .value.trim();
+    const text = document
+        .getElementById("bulkInput")
+        .value
+        .trim();
 
-    if(!text){
-
-        alert("Paste data first.");
+    if (!text) {
+        alert("Paste your word list first.");
         return;
     }
 
-    const lines =
-    text.split("\n");
+    const lines = text.split("\n");
 
     let imported = 0;
 
-    lines.forEach(line=>{
+    lines.forEach(line => {
 
-        const parts =
-        line.split(/\t+/);
+        line = line.trim();
 
-        if(parts.length >= 3){
+        if (!line) return;
 
-            const word =
-            parts[1].trim();
+        // Remove numbering like:
+        // 1 Aberration Meaning
+        // 1<TAB>Aberration<TAB>Meaning
 
-            const meaning =
-            parts.slice(2)
-            .join(" ")
-            .trim();
+        line = line.replace(/^\d+\s+/, "");
+
+        let word = "";
+        let meaning = "";
+
+        // TAB format
+        if (line.includes("\t")) {
+
+            const parts = line.split(/\t+/);
+
+            word = parts[0]?.trim();
+            meaning = parts.slice(1).join(" ").trim();
+
+        } else {
+
+            // Space format
+            const parts = line.split(/\s+/);
+
+            word = parts.shift();
+
+            meaning = parts.join(" ");
+
+        }
+
+        if (word && meaning) {
 
             words.push({
-
-                id:
-                Date.now() +
-                Math.random(),
-
-                word,
-                meaning
-
+                id: Date.now() + Math.random(),
+                word: word,
+                meaning: meaning
             });
 
             imported++;
-
         }
 
     });
@@ -103,28 +109,21 @@ function bulkImport(){
     saveData();
     renderWords();
 
-    alert(
-        imported +
-        " words imported successfully."
-    );
+    alert(imported + " words imported successfully!");
 
-    document.getElementById(
-        "bulkInput"
-    ).value = "";
-
+    document.getElementById("bulkInput").value = "";
 }
 
-function renderWords(list = words){
+// Render all words
+function renderWords(list = words) {
 
     const container =
-    document.getElementById(
-        "wordList"
-    );
+        document.getElementById("wordList");
 
-    if(list.length === 0){
+    if (list.length === 0) {
 
         container.innerHTML =
-        "<p>No words found.</p>";
+            "<p>No words found.</p>";
 
         updateCount();
         return;
@@ -132,206 +131,206 @@ function renderWords(list = words){
 
     container.innerHTML = "";
 
-    list.forEach(item=>{
+    list.forEach(item => {
 
-        container.innerHTML +=
+        container.innerHTML += `
+            <div class="word-card">
 
-        `
-        <div class="word-card">
+                <div class="word">
+                    ${item.word}
+                </div>
 
-            <div class="word">
-                ${item.word}
+                <div class="meaning">
+                    ${item.meaning}
+                </div>
+
+                <div class="actions">
+
+                    <button
+                        class="edit-btn"
+                        onclick="editWord(${item.id})">
+                        Edit
+                    </button>
+
+                    <button
+                        class="delete-btn"
+                        onclick="deleteWord(${item.id})">
+                        Delete
+                    </button>
+
+                </div>
+
             </div>
-
-            <div class="meaning">
-                ${item.meaning}
-            </div>
-
-            <div class="actions">
-
-                <button
-                    class="edit-btn"
-                    onclick="editWord(${item.id})">
-                    Edit
-                </button>
-
-                <button
-                    class="delete-btn"
-                    onclick="deleteWord(${item.id})">
-                    Delete
-                </button>
-
-            </div>
-
-        </div>
         `;
-
     });
 
     updateCount();
-
 }
 
-function editWord(id){
+// Edit word
+function editWord(id) {
 
     const item =
-    words.find(
-        w => w.id === id
-    );
+        words.find(w => w.id === id);
+
+    if (!item) return;
 
     const newWord =
-    prompt(
-        "Edit Word",
-        item.word
-    );
+        prompt("Edit Word", item.word);
 
-    if(newWord === null)
-        return;
+    if (newWord === null) return;
 
     const newMeaning =
-    prompt(
-        "Edit Meaning",
-        item.meaning
-    );
+        prompt("Edit Meaning", item.meaning);
 
-    if(newMeaning === null)
-        return;
+    if (newMeaning === null) return;
 
-    item.word =
-    newWord.trim();
-
-    item.meaning =
-    newMeaning.trim();
+    item.word = newWord.trim();
+    item.meaning = newMeaning.trim();
 
     saveData();
     renderWords();
-
 }
 
-function deleteWord(id){
+// Delete word
+function deleteWord(id) {
 
-    if(
-        !confirm(
-            "Delete this word?"
-        )
-    )
-    return;
+    const confirmDelete =
+        confirm("Delete this word?");
+
+    if (!confirmDelete) return;
 
     words =
-    words.filter(
-        item =>
-        item.id !== id
-    );
+        words.filter(
+            item => item.id !== id
+        );
 
     saveData();
     renderWords();
-
 }
 
-function searchWords(){
+// Search
+function searchWords() {
 
     const keyword =
-    document.getElementById(
-        "search"
-    )
-    .value
-    .toLowerCase();
+        document
+        .getElementById("search")
+        .value
+        .toLowerCase();
 
     const filtered =
-    words.filter(item =>
+        words.filter(item =>
 
-        item.word
-        .toLowerCase()
-        .includes(keyword)
+            item.word
+            .toLowerCase()
+            .includes(keyword)
 
-        ||
+            ||
 
-        item.meaning
-        .toLowerCase()
-        .includes(keyword)
-
-    );
+            item.meaning
+            .toLowerCase()
+            .includes(keyword)
+        );
 
     renderWords(filtered);
-
 }
 
-function exportJSON(){
+// Export JSON
+function exportJSON() {
 
     const data =
-    JSON.stringify(
-        words,
-        null,
-        2
-    );
+        JSON.stringify(
+            words,
+            null,
+            2
+        );
 
     const blob =
-    new Blob(
-        [data],
-        {
-            type:
-            "application/json"
-        }
-    );
+        new Blob(
+            [data],
+            {
+                type:
+                "application/json"
+            }
+        );
 
     const url =
-    URL.createObjectURL(
-        blob
-    );
+        URL.createObjectURL(blob);
 
     const a =
-    document.createElement("a");
+        document.createElement("a");
 
     a.href = url;
-    a.download =
-    "vocabulary.json";
+    a.download = "vocabulary.json";
+
+    document.body.appendChild(a);
 
     a.click();
 
-    URL.revokeObjectURL(url);
+    document.body.removeChild(a);
 
+    URL.revokeObjectURL(url);
 }
 
-function importJSON(event){
+// Import JSON
+function importJSON(event) {
 
     const file =
-    event.target.files[0];
+        event.target.files[0];
 
-    if(!file) return;
+    if (!file) return;
 
     const reader =
-    new FileReader();
+        new FileReader();
 
-    reader.onload =
-    function(e){
+    reader.onload = function (e) {
 
-        try{
+        try {
 
-            words =
-            JSON.parse(
-                e.target.result
-            );
+            const imported =
+                JSON.parse(
+                    e.target.result
+                );
+
+            if (!Array.isArray(imported)) {
+                throw new Error();
+            }
+
+            words = imported;
 
             saveData();
             renderWords();
 
             alert(
-                "Import successful."
+                "JSON imported successfully!"
             );
 
-        }
-        catch{
+        } catch {
 
             alert(
                 "Invalid JSON file."
             );
-
         }
-
     };
 
     reader.readAsText(file);
-
 }
 
+// Clear all words
+function clearAllWords() {
+
+    const confirmed =
+        confirm(
+            "Delete ALL words?"
+        );
+
+    if (!confirmed) return;
+
+    words = [];
+
+    saveData();
+    renderWords();
+}
+
+// First render
 renderWords();
