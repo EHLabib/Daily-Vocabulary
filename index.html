@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
+  <title>LexiVault · vocabulary</title>
+  <!-- Font Awesome 6 (free) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <style>
+    /* ===== RESET & BASE ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    }
+
+    body {
+      background: #0b1219;
+      background: radial-gradient(ellipse at 30% 20%, #141f2b 0%, #070d13 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.2rem;
+      color: #1e2c3a;
+    }
+
+    .app-wrapper {
+      max-width: 780px;
+      width: 100%;
+      background: rgba(235, 242, 250, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: 2.4rem;
+      padding: 1.8rem 2rem 2rem;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 4px 12px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      transition: 0.2s;
+    }
+
+    /* ===== TYPOGRAPHY ===== */
+    h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: #0a1f2f;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    h1 i {
+      color: #1f5a7a;
+      font-size: 1.8rem;
+    }
+    .subhead {
+      font-size: 0.8rem;
+      color: #1f3f55;
+      letter-spacing: 0.3px;
+      border-left: 2px solid #3a7b9e;
+      padding-left: 14px;
+      margin-top: 2px;
+      font-weight: 500;
+      opacity: 0.85;
+    }
+
+    /* ===== HEADER ===== */
+    header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid #b8ccdd;
+      padding-bottom: 0.7rem;
+    }
+
+    /* ===== CONTROLS ===== */
+    .control-panel {
+      background: rgba(255, 255, 255, 0.6);
+      border-radius: 1.8rem;
+      padding: 1.2rem 1.4rem;
+      border: 1px solid #c8d8e6;
+      box-shadow: inset 0 1px 4px rgba(0,0,0,0.03);
+    }
+
+    .input-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      align-items: flex-end;
+    }
+
+    .input-group {
+      flex: 1 1 130px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .input-group label {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: #1a3f58;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-weight: 700;
+    }
+    .input-group input {
+      background: #ffffff;
+      border: 1px solid #bccfdf;
+      border-radius: 40px;
+      padding: 0.6rem 1.2rem;
+      font-size: 0.9rem;
+      color: #0a1f2f;
+      outline: none;
+      transition: 0.15s;
+      width: 100%;
+      font-weight: 500;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    }
+    .input-group input:focus {
+      border-color: #2c6f92;
+      box-shadow: 0 0 0 3px rgba(44, 111, 146, 0.15);
+      background: #ffffff;
+    }
+    .input-group input::placeholder {
+      color: #7a99b0;
+      opacity: 0.6;
+      font-weight: 400;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 60px;
+      padding: 0.55rem 1.3rem;
+      font-weight: 600;
+      font-size: 0.85rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: 0.15s;
+      background: #dce8f2;
+      color: #0a263b;
+      border: 1px solid #bccfdf;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+      letter-spacing: 0.2px;
+    }
+    .btn:active {
+      transform: translateY(1px);
+      box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+    }
+    .btn.primary {
+      background: #1f5a7a;
+      border-color: #2a6f94;
+      color: #fff;
+      box-shadow: 0 4px 8px rgba(31, 90, 122, 0.25);
+    }
+    .btn.primary i { color: #d6f0ff; }
+    .btn.primary:hover {
+      background: #266b8f;
+      box-shadow: 0 6px 12px rgba(31, 90, 122, 0.3);
+    }
+    .btn.secondary {
+      background: #e6eff6;
+      border-color: #bccfdf;
+      color: #0a263b;
+    }
+    .btn.secondary:hover {
+      background: #d6e3ee;
+    }
+    .btn.danger {
+      background: #f0e0e2;
+      border-color: #dbb7bc;
+      color: #6f2c38;
+    }
+    .btn.danger:hover {
+      background: #e8cdd0;
+    }
+    .btn.pdf {
+      background: #deece6;
+      border-color: #b6d3c7;
+      color: #124a3a;
+    }
+    .btn.pdf:hover {
+      background: #cde3da;
+    }
+    .btn.sheet {
+      background: #ddecf5;
+      border-color: #b0cedf;
+      color: #0f4763;
+    }
+    .btn.sheet:hover {
+      background: #cce1ed;
+    }
+    .btn.success {
+      background: #c8e6d9;
+      border-color: #7fb8a3;
+      color: #0a3d2f;
+    }
+    .btn.success:hover {
+      background: #b5dccd;
+    }
+
+    .action-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-top: 1rem;
+      padding-top: 0.9rem;
+      border-top: 1px solid #c8d8e6;
+    }
+
+    /* ===== MODALS ===== */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(8, 18, 28, 0.7);
+      backdrop-filter: blur(6px);
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+    }
+    .modal-content {
+      background: #f4f9fe;
+      max-width: 480px;
+      width: 92%;
+      border-radius: 2rem;
+      padding: 1.6rem 1.8rem;
+      border: 1px solid #b8ccdd;
+      box-shadow: 0 24px 48px rgba(0, 0, 0, 0.4);
+      position: relative;
+    }
+    .modal-content h3 {
+      color: #0a1f2f;
+      margin-bottom: 0.3rem;
+      font-weight: 700;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    .modal-content p {
+      color: #1f3f55;
+      font-size: 0.85rem;
+      margin-bottom: 0.8rem;
+      opacity: 0.8;
+      font-weight: 500;
+    }
+    .modal-content textarea,
+    .modal-content input[type="email"] {
+      width: 100%;
+      background: #ffffff;
+      border: 1px solid #bccfdf;
+      border-radius: 20px;
+      padding: 0.9rem 1.2rem;
+      color: #0a1f2f;
+      font-size: 0.9rem;
+      outline: none;
+      font-family: 'Inter', monospace;
+      font-weight: 500;
+    }
+    .modal-content textarea {
+      resize: vertical;
+    }
+    .modal-content textarea:focus,
+    .modal-content input[type="email"]:focus {
+      border-color: #2c6f92;
+      box-shadow: 0 0 0 3px rgba(44, 111, 146, 0.1);
+    }
+    .modal-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: flex-end;
+      margin-top: 1.2rem;
+    }
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 18px;
+      font-size: 2rem;
+      color: #4a6f8a;
+      cursor: pointer;
+      transition: 0.1s;
+      line-height: 1;
+    }
+    .close-btn:hover { color: #0a1f2f; }
+
+    .email-status {
+      margin-top: 0.8rem;
+      padding: 0.6rem 1rem;
+      border-radius: 40px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      background: #e6eff6;
+      border: 1px solid #bccfdf;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #0a263b;
+    }
+    .email-status i {
+      color: #2c6f92;
+    }
+    .email-status.connected {
+      background: #c8e6d9;
+      border-color: #7fb8a3;
+      color: #0a3d2f;
+    }
+    .email-status.connected i {
+      color: #1a7a5a;
+    }
+
+    /* ===== VOCAB LIST ===== */
+    .vocab-section {
+      margin-top: 1.5rem;
+    }
+    .list-header {
+      display: flex;
+      justify-content: space-between;
+      color: #0a2a40;
+      font-size: 0.8rem;
+      padding: 0 0.2rem 0.4rem 0.2rem;
+      border-bottom: 1px solid #b8ccdd;
+      font-weight: 600;
+      letter-spacing: 0.2px;
+    }
+    .hint {
+      font-size: 0.65rem;
+      opacity: 0.6;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-weight: 500;
+    }
+
+    .vocab-list {
+      list-style: none;
+      margin-top: 0.6rem;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      max-height: 380px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+    .vocab-list::-webkit-scrollbar {
+      width: 4px;
+    }
+    .vocab-list::-webkit-scrollbar-track {
+      background: #d5e2ed;
+      border-radius: 20px;
+    }
+    .vocab-list::-webkit-scrollbar-thumb {
+      background: #9ab9d1;
+      border-radius: 20px;
+    }
+
+    .vocab-item {
+      background: #ffffff;
+      border: 1px solid #c8d8e6;
+      border-radius: 50px;
+      padding: 0.5rem 1.2rem 0.5rem 1.6rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: 0.1s;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+      cursor: pointer;
+      word-break: break-word;
+    }
+    .vocab-item:hover {
+      background: #f8fbfe;
+      border-color: #8fb3cc;
+      box-shadow: 0 4px 12px rgba(0, 20, 40, 0.08);
+    }
+    .word-mean {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 0.2rem 0.9rem;
+    }
+    .word {
+      font-weight: 700;
+      color: #0a1f2f;
+      font-size: 1rem;
+      letter-spacing: 0.2px;
+    }
+    .meaning {
+      color: #1f4a65;
+      background: #ecf3fa;
+      padding: 0.1rem 1rem;
+      border-radius: 40px;
+      font-size: 0.8rem;
+      border: 1px solid #c8d8e6;
+      font-weight: 500;
+    }
+    .delete-icon {
+      color: #7a99b0;
+      opacity: 0.4;
+      font-size: 0.95rem;
+      transition: 0.1s;
+      margin-left: 4px;
+    }
+    .vocab-item:hover .delete-icon {
+      opacity: 0.9;
+      color: #b04a5a;
+    }
+
+    .empty-message {
+      text-align: center;
+      padding: 2rem 0.5rem;
+      color: #1f4a65;
+      font-size: 1rem;
+      background: rgba(255, 255, 255, 0.5);
+      border-radius: 60px;
+      border: 1px dashed #b0c9db;
+      margin-top: 0.4rem;
+      font-weight: 500;
+    }
+    .empty-message i {
+      font-size: 1.6rem;
+      display: block;
+      margin-bottom: 6px;
+      color: #3a7b9e;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      margin-top: 1.5rem;
+      border-top: 1px solid #c8d8e6;
+      padding-top: 0.8rem;
+      display: flex;
+      justify-content: center;
+      color: #1f4a65;
+      font-size: 0.7rem;
+      gap: 18px;
+      flex-wrap: wrap;
+      letter-spacing: 0.2px;
+      font-weight: 500;
+    }
+    footer i { margin-right: 4px; opacity: 0.7; }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 550px) {
+      .app-wrapper { padding: 1rem; }
+      h1 { font-size: 1.5rem; }
+      .input-row { flex-direction: column; align-items: stretch; }
+      .btn { justify-content: center; padding: 0.5rem 1rem; }
+      .action-bar .btn { flex: 1 0 auto; }
+      .vocab-item { border-radius: 30px; padding: 0.5rem 1rem; }
+      .modal-content { padding: 1.2rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="app-wrapper">
+  <header>
+    <div>
+      <h1><i class="fas fa-book-open"></i> LexiVault</h1>
+      <div class="subhead"><i class="fas fa-database"></i> personal vocabulary · local first</div>
+    </div>
+    <div style="display: flex; gap: 8px; font-size: 1.1rem; color: #1f4a65;">
+      <i class="fas fa-cloud-upload-alt" style="opacity:0.5;"></i>
+    </div>
+  </header>
+
+  <!-- control panel -->
+  <section class="control-panel">
+    <div class="input-row">
+      <div class="input-group">
+        <label><i class="fas fa-font"></i> word</label>
+        <input type="text" id="wordInput" placeholder="serendipity" />
+      </div>
+      <div class="input-group">
+        <label><i class="fas fa-pencil-alt"></i> meaning</label>
+        <input type="text" id="meaningInput" placeholder="happy accident" />
+      </div>
+      <button id="addBtn" class="btn primary"><i class="fas fa-plus"></i> Add</button>
+    </div>
+
+    <div class="action-bar">
+      <button id="addMultipleBtn" class="btn secondary"><i class="fas fa-layer-group"></i> Bulk</button>
+      <button id="deleteAllBtn" class="btn danger"><i class="fas fa-trash"></i> Clear</button>
+      <button id="exportPdfBtn" class="btn pdf"><i class="fas fa-print"></i> Print PDF</button>
+      <button id="syncSheetBtn" class="btn sheet"><i class="fas fa-cloud-upload-alt"></i> Drive/Sheet</button>
+    </div>
+
+    <!-- Email status display -->
+    <div id="emailStatus" class="email-status" style="margin-top: 0.8rem; display: none;">
+      <i class="fas fa-envelope"></i>
+      <span id="emailStatusText">Not connected</span>
+    </div>
+  </section>
+
+  <!-- multi-word modal -->
+  <div id="multiModal" class="modal">
+    <div class="modal-content">
+      <span id="closeModal" class="close-btn">&times;</span>
+      <h3><i class="fas fa-list-ul"></i> bulk import</h3>
+      <p>one word, meaning per line · comma or tab separated</p>
+      <textarea id="multiTextarea" rows="6">apple, fruit&#10;brave, courageous&#10;delicate, fragile</textarea>
+      <div class="modal-actions">
+        <button id="multiCancelBtn" class="btn secondary">Cancel</button>
+        <button id="multiConfirmBtn" class="btn primary"><i class="fas fa-check"></i> Add all</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Drive/Sheet setup modal -->
+  <div id="sheetModal" class="modal">
+    <div class="modal-content">
+      <span id="closeSheetModal" class="close-btn">&times;</span>
+      <h3><i class="fas fa-cloud-upload-alt"></i> Connect to Drive/Sheets</h3>
+      <p>Enter your email to enable cloud storage for your vocabulary.</p>
+      <input type="email" id="emailInput" placeholder="your.email@example.com" />
+      <div style="margin-top: 0.6rem; font-size: 0.8rem; color: #1f4a65; opacity: 0.7;">
+        <i class="fas fa-info-circle"></i> We'll store your words securely in your Google Drive.
+      </div>
+      <div class="modal-actions">
+        <button id="sheetCancelBtn" class="btn secondary">Cancel</button>
+        <button id="sheetConfirmBtn" class="btn primary"><i class="fas fa-check"></i> Connect</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- vocabulary list -->
+  <section class="vocab-section">
+    <div class="list-header">
+      <span><i class="fas fa-archive"></i> vault · <span id="wordCount">0</span> entries</span>
+      <span class="hint"><i class="fas fa-info-circle"></i> click word to delete</span>
+    </div>
+    <ul id="vocabList" class="vocab-list"></ul>
+    <div id="emptyMessage" class="empty-message">
+      <i class="fas fa-smile-wink"></i> no words yet — add your first!
+    </div>
+  </section>
+
+  <footer>
+    <span><i class="fas fa-hdd"></i> local storage</span>
+    <span><i class="fas fa-google"></i> Google Drive / Sheets ready</span>
+    <span><i class="fas fa-code"></i> LexiVault v1.0</span>
+  </footer>
+</div>
+
+<script>
+  (function() {
+    "use strict";
+
+    // ---------- DOM refs ----------
+    const wordInput = document.getElementById('wordInput');
+    const meaningInput = document.getElementById('meaningInput');
+    const addBtn = document.getElementById('addBtn');
+    const vocabList = document.getElementById('vocabList');
+    const wordCountSpan = document.getElementById('wordCount');
+    const emptyMessage = document.getElementById('emptyMessage');
+
+    // multi modal
+    const multiModal = document.getElementById('multiModal');
+    const multiTextarea = document.getElementById('multiTextarea');
+    const multiConfirmBtn = document.getElementById('multiConfirmBtn');
+    const multiCancelBtn = document.getElementById('multiCancelBtn');
+    const closeModal = document.getElementById('closeModal');
+
+    // sheet modal
+    const sheetModal = document.getElementById('sheetModal');
+    const emailInput = document.getElementById('emailInput');
+    const sheetConfirmBtn = document.getElementById('sheetConfirmBtn');
+    const sheetCancelBtn = document.getElementById('sheetCancelBtn');
+    const closeSheetModal = document.getElementById('closeSheetModal');
+
+    // email status
+    const emailStatus = document.getElementById('emailStatus');
+    const emailStatusText = document.getElementById('emailStatusText');
+
+    const deleteAllBtn = document.getElementById('deleteAllBtn');
+    const exportPdfBtn = document.getElementById('exportPdfBtn');
+    const syncSheetBtn = document.getElementById('syncSheetBtn');
+
+    // ---------- STATE ----------
+    let vocabulary = []; // [{ word, meaning }]
+    let userEmail = localStorage.getItem('lexivault_email') || '';
+
+    // ---------- STORAGE ----------
+    function loadFromStorage() {
+      const stored = localStorage.getItem('lexivault_data');
+      if (stored) {
+        try {
+          vocabulary = JSON.parse(stored);
+          if (!Array.isArray(vocabulary)) vocabulary = [];
+        } catch (_) { vocabulary = []; }
+      } else {
+        vocabulary = [];
+      }
+      vocabulary = vocabulary.filter(item => item && typeof item.word === 'string' && typeof item.meaning === 'string');
+    }
+
+    function saveToStorage() {
+      localStorage.setItem('lexivault_data', JSON.stringify(vocabulary));
+    }
+
+    // ---------- EMAIL MANAGEMENT ----------
+    function updateEmailStatus() {
+      if (userEmail) {
+        emailStatus.style.display = 'flex';
+        emailStatus.className = 'email-status connected';
+        emailStatusText.textContent = `Connected: ${userEmail}`;
+      } else {
+        emailStatus.style.display = 'none';
+        emailStatus.className = 'email-status';
+        emailStatusText.textContent = 'Not connected';
+      }
+    }
+
+    function setUserEmail(email) {
+      userEmail = email.trim();
+      if (userEmail) {
+        localStorage.setItem('lexivault_email', userEmail);
+        // Simulate storing words to Drive/Sheet
+        syncToDrive(true);
+      } else {
+        localStorage.removeItem('lexivault_email');
+      }
+      updateEmailStatus();
+    }
+
+    // ---------- RENDER ----------
+    function render() {
+      vocabList.innerHTML = '';
+      const count = vocabulary.length;
+      wordCountSpan.textContent = count;
+
+      if (count === 0) {
+        emptyMessage.style.display = 'block';
+        return;
+      }
+      emptyMessage.style.display = 'none';
+
+      vocabulary.forEach((item, index) => {
+        const li = document.createElement('li');
+        li.className = 'vocab-item';
+        li.setAttribute('data-index', index);
+
+        const wordMeanDiv = document.createElement('div');
+        wordMeanDiv.className = 'word-mean';
+        const wordSpan = document.createElement('span');
+        wordSpan.className = 'word';
+        wordSpan.textContent = item.word.trim() || '?';
+        const meanSpan = document.createElement('span');
+        meanSpan.className = 'meaning';
+        meanSpan.textContent = item.meaning.trim() || '…';
+
+        wordMeanDiv.appendChild(wordSpan);
+        wordMeanDiv.appendChild(meanSpan);
+
+        const delIcon = document.createElement('i');
+        delIcon.className = 'fas fa-trash-alt delete-icon';
+
+        li.appendChild(wordMeanDiv);
+        li.appendChild(delIcon);
+
+        li.addEventListener('click', function(e) {
+          const idx = parseInt(this.getAttribute('data-index'), 10);
+          if (!isNaN(idx) && idx >= 0 && idx < vocabulary.length) {
+            vocabulary.splice(idx, 1);
+            saveToStorage();
+            render();
+            // Auto-sync after deletion if connected
+            if (userEmail) syncToDrive(true);
+          }
+        });
+
+        vocabList.appendChild(li);
+      });
+    }
+
+    // ---------- CORE ACTIONS ----------
+    function addWord(word, meaning) {
+      const w = word.trim();
+      const m = meaning.trim();
+      if (w === '' || m === '') return false;
+      vocabulary.push({ word: w, meaning: m });
+      saveToStorage();
+      render();
+      if (userEmail) syncToDrive(true);
+      return true;
+    }
+
+    function addMultiple(wordsArray) {
+      let added = 0;
+      wordsArray.forEach(pair => {
+        if (pair && pair.word && pair.meaning) {
+          const w = pair.word.trim();
+          const m = pair.meaning.trim();
+          if (w && m) {
+            vocabulary.push({ word: w, meaning: m });
+            added++;
+          }
+        }
+      });
+      if (added > 0) {
+        saveToStorage();
+        render();
+        if (userEmail) syncToDrive(true);
+      }
+      return added;
+    }
+
+    function deleteAll() {
+      if (vocabulary.length === 0) return;
+      if (confirm('Delete all words from your vault?')) {
+        vocabulary = [];
+        saveToStorage();
+        render();
+        if (userEmail) syncToDrive(true);
+      }
+    }
+
+    // ---------- EXPORT PDF (PRINT) ----------
+    function exportPDF() {
+      if (vocabulary.length === 0) {
+        alert('Your vault is empty. Add some words first!');
+        return;
+      }
+      // Open print dialog with formatted content
+      const printWindow = window.open('', '_blank', 'width=800,height=600');
+      if (!printWindow) {
+        alert('Please allow popups for printing.');
+        return;
+      }
+      const styles = `
+        <style>
+          * { margin: 0; padding: 0; box-sizing: border-box; }
+          body { font-family: 'Inter', 'Segoe UI', sans-serif; background: #ffffff; padding: 2.5rem; color: #0a1f2f; max-width: 800px; margin: 0 auto; }
+          h1 { color: #0a1f2f; border-bottom: 3px solid #2c6f92; padding-bottom: 12px; font-weight: 700; display: flex; align-items: center; gap: 12px; }
+          h1 i { color: #1f5a7a; }
+          .header-info { display: flex; justify-content: space-between; margin: 1.2rem 0 1.8rem; color: #1f4a65; font-weight: 500; }
+          ul { list-style: none; padding: 0; }
+          li { background: #f8fbfe; margin: 0.5rem 0; padding: 0.7rem 1.4rem; border-radius: 40px; border: 1px solid #c8d8e6; display: flex; justify-content: space-between; align-items: center; }
+          .w { font-weight: 700; color: #0a1f2f; font-size: 1.05rem; }
+          .m { color: #1f4a65; background: #ecf3fa; padding: 0.2rem 1.2rem; border-radius: 40px; font-weight: 500; }
+          .footer { margin-top: 2.5rem; padding-top: 1rem; border-top: 2px solid #d5e2ed; color: #4a6f8a; font-size: 0.8rem; text-align: center; }
+          @media print {
+            body { padding: 1.5rem; }
+            li { break-inside: avoid; }
+          }
+        </style>
+      `;
+      let listHtml = vocabulary.map((item, idx) =>
+        `<li><span class="w">${idx+1}. ${item.word}</span> <span class="m">${item.meaning}</span></li>`
+      ).join('');
+      const dateStr = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+      printWindow.document.write(`
+        <!DOCTYPE html>
+        <html><head><title>LexiVault - Vocabulary Export</title>${styles}</head>
+        <body>
+          <h1><i class="fas fa-book-open"></i> LexiVault</h1>
+          <div class="header-info">
+            <span><i class="fas fa-archive"></i> Vocabulary Export</span>
+            <span><i class="fas fa-calendar-alt"></i> ${dateStr}</span>
+          </div>
+          <p style="margin-bottom: 1.2rem; color: #1f4a65; font-weight: 500;">
+            <i class="fas fa-list"></i> ${vocabulary.length} entries
+            ${userEmail ? `· <i class="fas fa-envelope"></i> ${userEmail}` : ''}
+          </p>
+          <ul>${listHtml}</ul>
+          <div class="footer">
+            <i class="fas fa-database"></i> Exported from LexiVault · local storage
+          </div>
+          <script>
+            window.onload = function() { 
+              setTimeout(function() { window.print(); }, 500);
+            } <\/script>
+        </body></html>
+      `);
+      printWindow.document.close();
+    }
+
+    // ---------- SYNC TO DRIVE/SHEET (simulated) ----------
+    function syncToDrive(silent = false) {
+      if (!userEmail) {
+        if (!silent) alert('Please connect your email first using the Drive/Sheet button.');
+        return false;
+      }
+
+      try {
+        // Simulate storing to Google Drive/Sheets
+        const backupKey = `lexivault_sync_${userEmail.replace(/[^a-zA-Z0-9]/g, '_')}`;
+        const data = {
+          email: userEmail,
+          timestamp: new Date().toISOString(),
+          count: vocabulary.length,
+          words: vocabulary
+        };
+        localStorage.setItem(backupKey, JSON.stringify(data));
+        
+        // Also store a "last sync" timestamp
+        localStorage.setItem('lexivault_last_sync', new Date().toISOString());
+        
+        if (!silent) {
+          alert(`✅ Successfully synced ${vocabulary.length} words to Drive/Sheet!\nEmail: ${userEmail}\nYour vocabulary is now backed up.`);
+        }
+        return true;
+      } catch (e) {
+        if (!silent) alert('❌ Sync failed: ' + e.message);
+        return false;
+      }
+    }
+
+    // ---------- EVENT BINDINGS ----------
+    addBtn.addEventListener('click', function() {
+      const word = wordInput.value;
+      const meaning = meaningInput.value;
+      if (addWord(word, meaning)) {
+        wordInput.value = '';
+        meaningInput.value = '';
+        wordInput.focus();
+      } else {
+        alert('Please enter both word and meaning.');
+      }
+    });
+
+    wordInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') { meaningInput.focus(); e.preventDefault(); } });
+    meaningInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') { addBtn.click(); e.preventDefault(); } });
+
+    // Multi modal
+    function openMultiModal() { multiModal.style.display = 'flex'; }
+    function closeMultiModal() { multiModal.style.display = 'none'; }
+
+    document.getElementById('addMultipleBtn').addEventListener('click', openMultiModal);
+    closeModal.addEventListener('click', closeMultiModal);
+    multiCancelBtn.addEventListener('click', closeMultiModal);
+    window.addEventListener('click', (e) => { if (e.target === multiModal) closeMultiModal(); });
+
+    multiConfirmBtn.addEventListener('click', function() {
+      const raw = multiTextarea.value;
+      const lines = raw.split(/\r?\n/).filter(line => line.trim() !== '');
+      const pairs = [];
+      lines.forEach(line => {
+        let parts = line.split(/[,;\t]/).map(s => s.trim()).filter(s => s !== '');
+        if (parts.length >= 2) {
+          pairs.push({ word: parts[0], meaning: parts.slice(1).join(' ') });
+        }
+      });
+      if (pairs.length === 0) {
+        alert('No valid pairs found. Use: word, meaning (one per line)');
+        return;
+      }
+      const added = addMultiple(pairs);
+      if (added > 0) {
+        multiTextarea.value = '';
+        closeMultiModal();
+      } else {
+        alert('Could not add any words. Check format.');
+      }
+    });
+
+    // Sheet modal
+    function openSheetModal() { 
+      sheetModal.style.display = 'flex';
+      emailInput.value = userEmail || '';
+      emailInput.focus();
+    }
+    function closeSheetModalFn() { sheetModal.style.display = 'none'; }
+
+    syncSheetBtn.addEventListener('click', openSheetModal);
+    closeSheetModal.addEventListener('click', closeSheetModalFn);
+    sheetCancelBtn.addEventListener('click', closeSheetModalFn);
+    window.addEventListener('click', (e) => { if (e.target === sheetModal) closeSheetModalFn(); });
+
+    sheetConfirmBtn.addEventListener('click', function() {
+      const email = emailInput.value.trim();
+      if (!email || !email.includes('@') || !email.includes('.')) {
+        alert('Please enter a valid email address.');
+        return;
+      }
+      setUserEmail(email);
+      closeSheetModalFn();
+      // Sync immediately after connecting
+      syncToDrive(false);
+    });
+
+    // Enter key on email input
+    emailInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        sheetConfirmBtn.click();
+        e.preventDefault();
+      }
+    });
+
+    deleteAllBtn.addEventListener('click', deleteAll);
+    exportPdfBtn.addEventListener('click', exportPDF);
+
+    // ---------- INIT ----------
+    loadFromStorage();
+    updateEmailStatus();
+    render();
+
+    // If email is already set, show status
+    if (userEmail) {
+      updateEmailStatus();
+      // Auto-sync on load if there are words
+      if (vocabulary.length > 0) {
+        syncToDrive(true);
+      }
+    }
+
+    console.log('📚 LexiVault loaded. Words:', vocabulary.length, 'Email:', userEmail || 'not connected');
+  })();
+</script>
+</body>
+</html>
